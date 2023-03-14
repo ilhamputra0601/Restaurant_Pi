@@ -1,5 +1,11 @@
 @extends('admin.adminhome')
 @section('container')
+@if (session()->has('success'))
+<div class="alert alert-success col-lg-8" role="alert">
+    {{ session('success') }}
+
+  </div>
+@endif
 <h1 class="fs-2 text-uppercase mb-5">halaman user</h1>
 <table class="table align-middle">
     <thead>

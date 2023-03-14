@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Food;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,11 +14,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
+            'usertype' => '1',
+            'password' => bcrypt('admin1234')
+        ]);
+
+        User::factory()->create([
+            'name' => 'Ilham ramadhan',
+            'email' => 'ilhamputra0601@gmail.com',
+            'password' => bcrypt('ilhamputra1234')
+        ]);
+
+        User::factory(50)->create();
+
+        Food::factory(20)->create();
     }
 }
