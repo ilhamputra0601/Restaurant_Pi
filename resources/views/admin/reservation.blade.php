@@ -6,29 +6,34 @@
 
   </div>
 @endif
-<h1 class="fs-2 text-uppercase mb-5">halaman user</h1>
-<table class="table align-middle">
+<h1 class="fs-2 text-uppercase mb-5">Halaman Reservation</h1>
+<table class="table table-success table-striped">
     <thead>
       <tr>
         <th scope="col">No</th>
         <th scope="col">Name</th>
         <th scope="col">Email</th>
-        <th scope="col">Action</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Date</th>
+        <th scope="col">Time</th>
+        <th scope="col">Message</th>
+        <th scope="col">action</th>
       </tr>
     </thead>
     <tbody>
         @foreach ($data as $data)
-        @if ($data->usertype=='0')
         <tr>
             <th scope="row">{{ $loop->iteration }}</th>
             <td>{{ $data->name }}</td>
             <td>{{ $data->email }}</td>
+            <td>{{ $data->phone }}</td>
+            <td>{{ $data->date }}</td>
+            <td>{{ $data->time }}</td>
+            <td>{{ $data->message }}</td>
             <td>
-                <button onclick="confirmDelete('{{ url('/deleteuser',$data->id) }}')" type="button" class="btn btn-danger"><strong>X</strong></button>
+                <button onclick="confirmDelete('{{ url('/deletereservation',$data->id) }}')" type="button" class="btn btn-danger"><strong>X</strong></button>
             </td>
         </tr>
-        @else
-        @endif
         @endforeach
     </tbody>
   </table>

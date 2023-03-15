@@ -8,22 +8,22 @@
 @endif
 <h1 class="fs-2 text-uppercase mb-5">Halaman Menu</h1>
 
-<form method="post" class="" action="{{'/uploadfood'}}" enctype="multipart/form-data">
+<form method="post" class="" action="{{'/createchef'}}" enctype="multipart/form-data">
     @csrf
     <!-- 2 column grid layout with text inputs for the first and last names -->
     <div class="row mb-4">
         <div class="col">
             <div class="form-outline">
-                <input type="text" id="title" name="title" class="form-control text-dark bg-light @error('title') is-invalid @enderror" autofocus required value="{{ old('title') }}" />
-                <label class="form-label" for="title">Title</label>
-                @error('title')<div class="invalid-feedback">{{ $message }}</div> @enderror
+                <input type="text" id="name" name="name" class="form-control text-dark bg-light @error('name') is-invalid @enderror" autofocus required value="{{ old('name') }}" />
+                <label class="form-label" for="name">Name</label>
+                @error('name')<div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
         </div>
         <div class="col">
             <div class="form-outline">
-                <input type="number" id="price" name="price" class="form-control text-dark bg-light @error('price') is-invalid @enderror" required value="{{ old('price') }}" />
-                <label class="form-label" for="price">Price</label>
-                @error('price')<div class="invalid-feedback">{{ $message }}</div> @enderror
+                <input type="text" id="speciality" name="speciality" class="form-control text-dark bg-light @error('speciality') is-invalid @enderror" required value="{{ old('speciality') }}" />
+                <label class="form-label" for="speciality">Speciality</label>
+                @error('speciality')<div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
         </div>
     </div>
@@ -35,13 +35,6 @@
         @error('image')<div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
 
-    <!-- Message input -->
-    <div class="form-outline mb-4">
-        <textarea class="form-control  text-dark bg-light @error('description') is-invalid @enderror" id="description" name="description" rows="4" required>{{ old('description') }}</textarea>
-        <label class="form-label" for="description">Description</label>
-        @error('description')<div class="invalid-feedback">{{ $message }}</div> @enderror
-    </div>
-
     <!-- Submit button -->
     <button type="submit" class="btn btn-primary btn-block mb-4">Save</button>
 </form>
@@ -50,9 +43,8 @@
     <thead>
         <tr>
           <th scope="col">No</th>
-          <th scope="col">Food Menu</th>
-          <th scope="col">Price</th>
-          <th scope="col">Description</th>
+          <th scope="col">Name</th>
+          <th scope="col">Speciality</th>
           <th scope="col">Image</th>
           <th scope="col">Update</th>
           <th scope="col">Delete</th>
@@ -62,15 +54,14 @@
           @foreach ($data as $data)
           <tr>
               <th scope="row">{{ $loop->iteration }}</th>
-              <td>{{ $data->title }}</td>
-              <td>{{ $data->price }}</td>
-              <td>{{ $data->description }}</td>
-              <td><img src="{{ asset('storage/'. $data->image)  }}" alt="{{ $data->title }}"></td>
+              <td>{{ $data->name }}</td>
+              <td>{{ $data->speciality }}</td>
+              <td><img src="{{ asset('storage/'. $data->image)  }}" alt="{{ $data->name }}"></td>
               <td>
-                  <button onclick="location.href='{{ url('/viewmenu',$data->id) }}'" type="button" class="btn btn-primary"><strong>⨇</strong></button>
+                  <button onclick="location.href='{{ url('/showchef',$data->id) }}'" type="button" class="btn btn-primary"><strong>⨇</strong></button>
               </td>
               <td>
-                <button onclick="confirmDelete('{{ url('/deletemenu', $data->id) }}')" type="button" class="btn btn-danger"><strong>X</strong></button>
+                <button onclick="confirmDelete('{{ url('/deletechef', $data->id) }}')" type="button" class="btn btn-danger"><strong>X</strong></button>
               </td>
           </tr>
           @endforeach

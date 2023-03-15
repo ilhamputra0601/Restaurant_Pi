@@ -5,23 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Food;
+use App\Models\Chef;
 
 class HomeController extends Controller
 {
     public function index()
     {
         $foods = Food::all();
-        return view('home',compact('foods'));
+        $chefs=Chef::all();
+        return view('home',compact('foods','chefs'));
     }
 
     public function redirects()
     {
         $foods = Food::all();
+        $chefs=Chef::all();
         $usertype = Auth::user()->usertype;
         if($usertype == '1') {
             return view("admin.adminhome");
         } else {
-            return view('home',compact('foods'));
+            return view('home',compact('foods','chefs'));
         }
     }
 }

@@ -14,20 +14,32 @@ use App\Http\Controllers\AdminController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+// home
 Route::get('/', [HomeController::class,"index"]);
 Route::get('/redirects', [HomeController::class,"redirects"]);
 
+// User
 Route::get('/users', [AdminController::class,"user"]);
 Route::get('/deleteuser/{id}', [AdminController::class,"deleteuser"]);
 
+// Menu
 Route::get('/foodmenu', [AdminController::class,"foodmenu"]);
 Route::post('/uploadfood', [AdminController::class,"upload"]);
 Route::post('/update/{id}', [AdminController::class,"update"]);
 Route::get('/viewmenu/{id}', [AdminController::class,"viewfood"]);
 Route::get('/deletemenu/{id}', [AdminController::class,"deletefood"]);
 
-// Route::resource('/foodmenu',FoodController::class)->middleware('auth');
+// Reservation
+Route::post('/reservation', [AdminController::class,"reservation"]);
+Route::get('/viewreservation', [AdminController::class,"viewreservation"]);
+Route::get('/deletereservation/{id}', [AdminController::class,"deletereservation"]);
+
+// Chef
+Route::get('/viewchef', [AdminController::class,"viewchef"]);
+Route::post('/createchef', [AdminController::class,"createchef"]);
+Route::get('/showchef/{id}', [AdminController::class,"showchef"]);
+Route::post('/updatechef/{id}', [AdminController::class,"updatechef"]);
+Route::get('/deletechef/{id}', [AdminController::class,"deletechef"]);
 
 Route::middleware([
     'auth:sanctum',
