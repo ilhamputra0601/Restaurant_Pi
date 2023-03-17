@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Food;
 use App\Models\Chef;
+use App\Models\Order;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\Storage;
 
@@ -52,7 +53,7 @@ class AdminController extends Controller
         $data=Food::find($id);
         return view('admin.updatefood',compact("data"));
     }
-    
+
     public function update(Request $request, $id)
     {
         $data = Food::find($id);
@@ -178,6 +179,22 @@ class AdminController extends Controller
         $data->update($validatedData);
 
         return redirect('/foodmenu')->with('success', 'Food has been updated!');
+    }
+
+    public function orders(){
+        $data=Order::all();
+        return view("admin.orders",(compact("data")));
+
+    }
+
+    public function search(Request $request){
+
+        $search=$request->search;
+
+        $data=Order::where('name','Like','%'.$search.'%')->orWhere('foodname','Like','%'.$search.'%')->get();
+
+        return view("admin.orders",(compact("data")));
+
     }
 
 
