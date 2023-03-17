@@ -18,6 +18,11 @@ use App\Http\Controllers\AdminController;
 Route::get('/', [HomeController::class,"index"]);
 Route::get('/redirects', [HomeController::class,"redirects"]);
 
+// AddCart
+Route::post('/addcart/{id}', [HomeController::class,"addcart"]);
+Route::get('/showcart/{id}', [HomeController::class,"showcart"]);
+Route::get('/deletecart/{id}', [HomeController::class,"deletecart"]);
+
 // User
 Route::get('/users', [AdminController::class,"user"]);
 Route::get('/deleteuser/{id}', [AdminController::class,"deleteuser"]);

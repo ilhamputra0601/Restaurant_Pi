@@ -52,6 +52,7 @@ class AdminController extends Controller
         $data=Food::find($id);
         return view('admin.updatefood',compact("data"));
     }
+    
     public function update(Request $request, $id)
     {
         $data = Food::find($id);
