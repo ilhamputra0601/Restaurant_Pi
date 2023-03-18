@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Food;
 use App\Models\Chef;
 use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\Storage;
 
@@ -146,7 +147,6 @@ class AdminController extends Controller
     public function deletechef($id)
     {
         $data=Chef::find($id);
-        $data=Chef::find($id);
         if($data->image){
             Storage::delete($data->image);
         }
@@ -182,8 +182,24 @@ class AdminController extends Controller
     }
 
     public function orders(){
-        $data=Order::all();
-        return view("admin.orders",(compact("data")));
+
+        $data = User::with('orders')
+            ->select('users.name', 'orders.user_id as user_id', \DB::raw('SUM(orders.quantity) as total_quantity'), \DB::raw('SUM(orders.quantity * orders.price) as total_amount'))
+            ->join('orders', 'users.id', '=', 'orders.user_id')
+            ->groupBy('orders.user_id', 'users.name')
+            ->get();
+
+        return view("admin.orders",(compact('data')));
+    }
+
+    public function ordershow($user_id)
+        {
+            $quantity = Order::where('user_id', $user_id)->sum('quantity');
+            $total_price = Order::where('user_id', $user_id)->sum(\DB::raw('quantity * price'));
+
+            $data = Order::where('user_id', $user_id)->get();
+
+            return view("admin.ordershow",(compact('data','quantity','total_price')));
 
     }
 
@@ -191,7 +207,8 @@ class AdminController extends Controller
 
         $search=$request->search;
 
-        $data=Order::where('name','Like','%'.$search.'%')->orWhere('foodname','Like','%'.$search.'%')->get();
+        // $data=Order::where('name','Like','%'.$search.'%')->orWhere('foodname','Like','%'.$search.'%')->get();
+        $data=Order::where('name','Like','%'.$search.'%')->get();
 
         return view("admin.orders",(compact("data")));
 

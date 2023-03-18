@@ -61,6 +61,9 @@
 
                 <div id="appear"  class=" container mt-3" style="display: none;">
               <div>
+              <input type="number" style="display: none;" name="user_id" value="{{ auth()->user()->id }}" readonly>
+            </div>
+              <div>
               <label for="name">Name</label>
               <input type="text" class="form-control" name="name" id="name" placeholder="name@example.com" value="{{ auth()->user()->name }}" required>
             </div>

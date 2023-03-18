@@ -61,6 +61,7 @@ class HomeController extends Controller
             $data = Cart::where('user_id',$id)->join('food', 'carts.food_id', '=' ,'food.id')->get();
             $data2 = Cart::select('*')->where('user_id','=', $id)->get();
 
+
             return view('showcart',compact('count','data','data2'));
     }
 
@@ -74,18 +75,21 @@ class HomeController extends Controller
     public function orderconfirm(Request $request)
     {
         // dd($request);
+        $user_id=Auth::id();
     foreach($request->foodname as $key => $foodname)
     {
         if (!is_null($foodname)) {
-            $data = new order;
-            $data->foodname = $foodname;
-            $data->price = $request->price[$key];
-            $data->quantity= $request->quantity[$key];
-            $data->name = $request->name;
-            $data->phone = $request->phone;
-            $data->address = $request->address;
-            $data->save();
+            $data = [
+            'foodname' => $foodname,
+            'price' => $request->price[$key],
+            'quantity'=> $request->quantity[$key],
+            'user_id' => $user_id,
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            ];
         }
+        Order::create($data);
     }
 
     return redirect()->back()->with('success','New order has been added!');

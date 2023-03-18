@@ -24,6 +24,7 @@ Route::get('/showcart/{id}', [HomeController::class,"showcart"]);
 Route::get('/deletecart/{id}', [HomeController::class,"deletecart"]);
 Route::post('/orderconfirm', [HomeController::class,"orderconfirm"]);
 Route::get('/orders', [AdminController::class,"orders"]);
+Route::get('/ordershow/{user_id}', [AdminController::class,"ordershow"]);
 Route::get('/search', [AdminController::class,"search"]);
 
 // User

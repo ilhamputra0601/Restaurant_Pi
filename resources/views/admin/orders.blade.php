@@ -18,17 +18,15 @@
     </button>
   </div>
 </form>
-
+<div class="d-flex justify-content-center container">
   <table class="table table-success table-striped">
     <thead>
         <tr>
           <th scope="col">No</th>
-          <th scope="col">Food Name</th>
-          <th scope="col">Price</th>
-          <th scope="col">Quantity</th>
           <th scope="col">Name</th>
-          <th scope="col">Phone</th>
-          <th scope="col">Address</th>
+          <th scope="col">Total Quantity</th>
+          <th scope="col">Total Price</th>
+          <th scope="col">Show</th>
           <th scope="col">Delete</th>
         </tr>
       </thead>
@@ -36,19 +34,21 @@
           @foreach ($data as $data)
           <tr>
               <th scope="row">{{ $loop->iteration }}</th>
-              <td>{{ $data->foodname }}</td>
-              <td>{{ $data->price * $data->quantity}}</td>
-              <td>{{ $data->quantity }}</td>
-              <td>{{ $data->name }}</td>
-              <td>{{ $data->phone }}</td>
-              <td>{{ $data->address }}</td>
-              <td>
-                <button onclick="confirmDelete('{{ url('/deletemenu', $data->id) }}')" type="button" class="btn btn-danger"><strong>X</strong></button>
+              <td>{{ $data->name  }}</td>
+              <td>{{ $data->total_quantity }}</td>
+            <td>{{ $data->total_amount }} K</td>
+            <td>
+                <button onclick="location.href='{{ url('/ordershow', $data->user_id) }}'" type="button" class="btn btn-primary bg-primary"><strong>show</strong></button>
               </td>
+              <td>
+                <button onclick="confirmDelete('{{ url('/deletemenu', $data->id) }}')" type="button" class="btn btn-danger bg-danger"><strong>X</strong></button>
+              </td>
+              @endforeach
           </tr>
-          @endforeach
+
       </tbody>
   </table>
+  </div>
 
 <script>
     function confirmDelete(url) {
