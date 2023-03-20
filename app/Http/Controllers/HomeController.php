@@ -9,6 +9,9 @@ use App\Models\User;
 use App\Models\Chef;
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Payment;
+use Illuminate\Support\Facades\DB;
+
 
 class HomeController extends Controller
 {
@@ -30,7 +33,8 @@ class HomeController extends Controller
         } else {
             $user_id=Auth::id();
             $count=Cart::where('user_id',$user_id)->count();
-            return view('home',compact('foods','chefs','count'));
+            $count_p=payment::all()->count();
+            return view('home',compact('foods','chefs','count','count_p'));
         }
     }
 
@@ -61,8 +65,13 @@ class HomeController extends Controller
             $data = Cart::where('user_id',$id)->join('food', 'carts.food_id', '=' ,'food.id')->get();
             $data2 = Cart::select('*')->where('user_id','=', $id)->get();
 
+            $totalPrice = DB::table('carts')
+              ->join('food', 'carts.food_id', '=', 'food.id')
+              ->where('user_id', $id)
+              ->sum(DB::raw('price * quantity'));
 
-            return view('showcart',compact('count','data','data2'));
+
+            return view('showcart',compact('count','data','data2','totalPrice'));
     }
 
     public function deletecart($id)
@@ -76,8 +85,9 @@ class HomeController extends Controller
     {
         // dd($request);
         $user_id=Auth::id();
-    foreach($request->foodname as $key => $foodname)
-    {
+        foreach($request->foodname as $key => $foodname)
+        {
+
         if (!is_null($foodname)) {
             $data = [
             'foodname' => $foodname,
@@ -85,13 +95,46 @@ class HomeController extends Controller
             'quantity'=> $request->quantity[$key],
             'user_id' => $user_id,
             'name' => $request->name,
+            'bank' => $request->bank,
             'phone' => $request->phone,
             'address' => $request->address,
             ];
         }
+        // dd($data);
         Order::create($data);
+        return redirect('/showpay/{id}')->with('success','Cart has been Added!');
     }
 
     return redirect()->back()->with('success','New order has been added!');
-}
+    }
+
+    public function showpay(Request $request, $id)
+    {
+        $user_id = Auth::id();
+        $count = Cart::where('user_id',$user_id)->count();
+        $count_p=payment::all()->count();
+        $data = payment::all();
+        return view('showpay',compact('count','count_p','data'));
+    }
+
+    public function payment(Request $request)
+    {
+        // dd($request);
+        $user_id=Auth::id();
+
+            $data = [
+            'price'=> $request->price,
+            'quantity'=> $request->quantity,
+            'name' => $request->name,
+            'bank' => $request->bank,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            ];
+
+        // dd($data);
+        payment::create($data);
+        return redirect('/showpay/{id}')->with('success','Cart has been Added!');
+    }
+
+
 }

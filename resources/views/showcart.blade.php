@@ -21,7 +21,7 @@
       </thead>
       <tbody>
         <form action="{{ url('orderconfirm') }}" method="post">
-            @csrf
+        @csrf
           @foreach ($data as $cart)
           <tr>
               <th scope="row">{{ $loop->iteration }}</th>
@@ -49,7 +49,7 @@
                       <tr>
                             @foreach ($data2 as $delete)
                         <td>
-                            <button onclick="confirmDelete('{{ url('/deletecart', $delete->id) }}')" type="button" class="btn btn-danger"><strong>X</strong></button>
+                            <button onclick="confirmDelete('{{ url('/deletecart', $delete->id) }}')" type="button" class="btn btn-danger bg-danger"><strong>X</strong></button>
                           </td>
                       </tr>
                           @endforeach
@@ -59,24 +59,37 @@
           </div>
 
 
-                <div id="appear"  class=" container mt-3" style="display: none;">
+                <div id="appear"  class=" container mt-3" >
               <div>
-              <input type="number" style="display: none;" name="user_id" value="{{ auth()->user()->id }}" readonly>
+              <input type="number" style="display: none;" name="user_id" value="{{ auth()->user()->id }}">
             </div>
               <div>
-              <label for="name">Name</label>
-              <input type="text" class="form-control" name="name" id="name" placeholder="name@example.com" value="{{ auth()->user()->name }}" required>
+              <input type="text" class="form-control" name="name" id="name" placeholder="name@example.com" value="{{ auth()->user()->name }}" style="display: none;" required>
             </div>
+              <div>
+              <label for="name">Total Price</label>
+              <input type="text" class="form-control" name="totalprice" placeholder="name@example.com" value="Rp {{ $totalPrice }}.000" disabled required>
+            </div>
+              <!-- Example single danger button -->
+              <div class="mb-3 mt-1">
+                <label for="category" class="form-label ">select payment</label>
+                <select class="form-select" name="bank" required oninvalid="this.setCustomValidity('Please select a payment method')">
+                  <option style="display: none;" >Bank</option>
+                  <option value="bca">BCA</option>
+                  <option value="mandiri">Mandiri</option>
+                  <option value="dana">Dana</option>
+                </select>
+              </div>
               <div>
               <label for="phone">Phone</label>
-              <input type="number" min="0" class="form-control" name="phone" id="phone" placeholder="Phone Number" required autofocus>
+              <input type="tel" min="0" class="form-control" name="phone" id="phone" placeholder="Phone Number" required autofocus>
             </div>
               <div>
               <label for="address">Address</label>
               <input type="text" class="form-control" name="address" id="address" placeholder="Your Address" required>
             </div>
             <div class="mt-4">
-              <button class="btn btn-success bg-success " type="submit">Order Confirm</button>
+              <button class="btn btn-success bg-success " type="submit">Checkout</button>
               <button id="close" class="btn btn-danger bg-danger " type="button">Close</button>
             </div>
              </div>
@@ -95,7 +108,7 @@
     }
   </script>
 
-  <script>
+  {{-- <script>
     $("#order").click(
         function () {
             $("#appear").show();
@@ -106,7 +119,8 @@
         function () {
             $("#appear").hide();
         }
-    );
+    ); --}}
 
   </script>
+
 @endsection
