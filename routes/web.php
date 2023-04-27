@@ -20,15 +20,18 @@ Route::get('/redirects', [HomeController::class,"redirects"]);
 
 // payment
 Route::get('/showpay/{id}', [HomeController::class,"showpay"]);
-Route::post('/payment', [HomeController::class,"payment"]);
 
 // AddCart
 Route::post('/addcart/{id}', [HomeController::class,"addcart"]);
 Route::get('/showcart/{id}', [HomeController::class,"showcart"]);
 Route::get('/deletecart/{id}', [HomeController::class,"deletecart"]);
 Route::post('/orderconfirm', [HomeController::class,"orderconfirm"]);
+
+//order
 Route::get('/orders', [AdminController::class,"orders"]);
 Route::get('/ordershow/{user_id}', [AdminController::class,"ordershow"]);
+Route::get('/deleteorder/{user_id}', [AdminController::class,"deleteorder"]);
+Route::get('/deletepay/{id}', [HomeController::class,"deletepay"]);
 Route::get('/search', [AdminController::class,"search"]);
 
 // User

@@ -1,5 +1,11 @@
 <section class="section" id="reservation">
     <div class="container">
+        @if (session()->has('success'))
+        <div class="alert alert-success col-lg-8" role="alert">
+            {{ session('success') }}
+
+          </div>
+        @endif
         <div class="row">
             <div class="col-lg-6 align-self-center">
                 <div class="left-text-content">

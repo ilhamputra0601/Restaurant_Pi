@@ -6,7 +6,6 @@
 
   </div>
 @endif
-{{-- <h1 class="fs-2 text-uppercase mb-5">Order By {{ $data->name }}</h1> --}}
 
   <table class="table table-success table-striped">
     <thead>
@@ -18,7 +17,6 @@
           <th scope="col">Name</th>
           <th scope="col">Phone</th>
           <th scope="col">Address</th>
-          <th scope="col">Delete</th>
         </tr>
       </thead>
       <tbody>
@@ -26,14 +24,11 @@
           <tr>
               <th scope="row">{{ $loop->iteration }}</th>
               <td>{{ $data->foodname }}</td>
-              <td>{{ $data->price * $data->quantity}}</td>
+              <td>Rp {{ $data->price }}.000</td>
               <td>{{ $data->quantity }}</td>
               <td>{{ $data->name }}</td>
               <td>{{ $data->phone }}</td>
               <td>{{ $data->address }}</td>
-              <td>
-                <button onclick="confirmDelete('{{ url('/deleteorder', $data->id) }}')" type="button" class="btn btn-danger"><strong>X</strong></button>
-              </td>
           </tr>
           @endforeach
       </tbody>
@@ -50,34 +45,12 @@
         <p><strong>Phone:</strong> {{ $data->phone }}</p>
         <p><strong>Address:</strong> {{ $data->address }}</p>
         <p><strong>Total Quantity:</strong>{{ $quantity }}</p>
-        <p><strong>Total Price:</strong>{{ $total_price }} K</p>
+        <p><strong>Total Price:</strong> Rp {{ $total_price }}.000</p>
       </div>
     </div>
   </div>
 </div>
 
-<form action="{{ url('/payment') }}" method="post">
-    @csrf
-    <input type="hidden" name="name" value="{{ $data->name }}">
-    <input type="hidden" name="bank" value="{{ $data->bank }}">
-    <input type="hidden" name="price" value="{{ $total_price }}">
-    <input type="hidden" name="quantity" value="{{ $quantity }}">
-    <input type="hidden" name="phone" value="{{ $data->phone }}">
-    <input type="hidden" name="address" value="{{ $data->address }}">
-    <button onclick="location.href='{{ url('/orders') }}'" type="button" class="btn btn-warning bg-warning mt-3 mr-2"><strong>Back</strong></button>
-    <button class="btn btn-success bg-success mt-3" type="submit">Order Ready</button>
-</form>
-
-
-
-
-<script>
-    function confirmDelete(url) {
-      if (confirm("Apakah Anda yakin ingin menghapus menu ini?")) {
-        window.location.href = url;
-      }
-    }
-  </script>
-
+<button onclick="location.href='/orders'" type="button" class="btn btn-primary bg-primary mt-3 absolute"><strong>Back</strong></button>
 
 @endsection

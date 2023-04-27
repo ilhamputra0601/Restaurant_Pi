@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Food;
 use App\Models\User;
+use App\Models\Category;
 use App\Models\Reservation;
 use Illuminate\Database\Seeder;
 
@@ -54,5 +55,20 @@ class DatabaseSeeder extends Seeder
             "time"=> '00:21',
             "message"=> 'wawddadadw'
         ]);
+
+        // category
+        Category::create([
+            'name' => 'Not gravy',
+            'image'=> 'assets/images/tab-icon-01.png'
+         ]);
+
+        Category::create([
+            'name' => 'Soup',
+            'image'=> 'assets/images/tab-icon-02.png'
+         ]);
+        Category::create([
+            'name' => 'Burned',
+            'image'=> 'assets/images/tab-icon-03.png'
+         ]);
     }
 }

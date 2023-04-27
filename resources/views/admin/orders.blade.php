@@ -34,14 +34,14 @@
           @foreach ($data as $data)
           <tr>
               <th scope="row">{{ $loop->iteration }}</th>
-              <td>{{ $data->name  }}</td>
-              <td>{{ $data->total_quantity }}</td>
-            <td>{{ $data->total_amount }} K</td>
+              <td>{{ $data->user->name  }}</td>
+              <td>{{ $data->quantity }}</td>
+            <td>Rp{{ $data->price  }}.000</td>
             <td>
                 <button onclick="location.href='{{ url('/ordershow', $data->user_id) }}'" type="button" class="btn btn-primary bg-primary"><strong>show</strong></button>
               </td>
               <td>
-                <button onclick="confirmDelete('{{ url('/deletemenu', $data->id) }}')" type="button" class="btn btn-danger bg-danger"><strong>X</strong></button>
+                <button onclick="confirmDelete('{{ url('/deleteorder', $data->user_id) }}')" type="button" class="btn btn-danger bg-danger"><strong>X</strong></button>
               </td>
               @endforeach
           </tr>
@@ -52,7 +52,7 @@
 
 <script>
     function confirmDelete(url) {
-      if (confirm("Apakah Anda yakin ingin menghapus menu ini?")) {
+      if (confirm("Apakah Anda yakin ingin menghapus pesanan ini?")) {
         window.location.href = url;
       }
     }

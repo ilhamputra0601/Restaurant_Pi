@@ -10,8 +10,8 @@
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li class="scroll-to-section"><a href="/redirects" class="active">Home</a></li>
-                        <li class="scroll-to-section"><a href="/redirects/#about">About</a></li>
+                        <li class="scroll-to-section"><a href="@auth /redirects @else / @endauth" class="active">Home</a></li>
+                        <li class="scroll-to-section"><a href="@auth /redirects/#about @else /#about @endauth">About</a></li>
 
                     <!--
                         <li class="submenu">
@@ -23,19 +23,10 @@
                             </ul>
                         </li>
                     -->
-                        <li class="scroll-to-section"><a href="/redirects/#menu">Menu</a></li>
-                        <li class="scroll-to-section"><a href="/redirects/#chefs">Chefs</a></li>
-                        <li class="submenu">
-                            <a href="javascript:;">Features</a>
-                            <ul>
-                                <li><a href="#">Features Page 1</a></li>
-                                <li><a href="#">Features Page 2</a></li>
-                                <li><a href="#">Features Page 3</a></li>
-                                <li><a href="#">Features Page 4</a></li>
-                            </ul>
-                        </li>
-                        <!-- <li class=""><a rel="sponsored" href="https://templatemo.com" target="_blank">External URL</a></li> -->
-                        <li class="scroll-to-section"><a href="/redirects/#reservation">Contact Us</a></li>
+                        <li class="scroll-to-section"><a href="@auth /redirects/#menu @else /#menu @endauth">Menu</a></li>
+                        <li class="scroll-to-section"><a href="@auth /redirects/#chefs @else /#chefs @endauth">Chefs</a></li>
+
+                        <li class="scroll-to-section"><a href="@auth /redirects/#reservation @else /#reservation @endauth">Contact Us</a></li>
                         <li>
                             <a href="@auth{{ url('/showcart', Auth::user()->id) }}@else{{ url('/login')}} @endauth">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">

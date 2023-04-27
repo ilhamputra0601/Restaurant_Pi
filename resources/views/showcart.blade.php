@@ -26,15 +26,17 @@
           <tr>
               <th scope="row">{{ $loop->iteration }}</th>
               <td>
-                <input type="text" name="foodname[]" value="{{ $cart->title }}" hidden>
-                {{ $cart->title }}
+                <input type="text" name="foodname[]" value="{{ $cart->food->title }}" hidden>
+                {{ $cart->food->title  }}
             </td>
               <td>
-                <input type="number" name="price[]" value="{{ $cart->price * $cart->quantity}}" hidden>
-                {{ $cart->price * $cart->quantity}} K
+                <input type="number" name="price[]" value="{{ $totalPrice}}" hidden>
+                {{ $cart->food->price}} K
             </td>
+
             <td>
                 <input style=" width:60px;" type="number" min="0" name="quantity[]" value="{{ $cart->quantity }}">
+
             </td>
               @endforeach
             </tr>
@@ -57,14 +59,10 @@
             </table>
             <button class="btn btn-primary bg-primary" id="order" style="margin-bottom:15px;" type="button">Order Now</button>
           </div>
-
-
-                <div id="appear"  class=" container mt-3" >
+                <div id="appear" style="display: none;" class=" container mt-3" >
               <div>
-              <input type="number" style="display: none;" name="user_id" value="{{ auth()->user()->id }}">
-            </div>
               <div>
-              <input type="text" class="form-control" name="name" id="name" placeholder="name@example.com" value="{{ auth()->user()->name }}" style="display: none;" required>
+              <input type="text" class="form-control" name="name" id="name" value="{{ auth()->user()->name }}" style="display: none;" required>
             </div>
               <div>
               <label for="name">Total Price</label>
@@ -73,16 +71,15 @@
               <!-- Example single danger button -->
               <div class="mb-3 mt-1">
                 <label for="category" class="form-label ">select payment</label>
-                <select class="form-select" name="bank" required oninvalid="this.setCustomValidity('Please select a payment method')">
-                  <option style="display: none;" >Bank</option>
-                  <option value="bca">BCA</option>
+                <select class="form-select" name="bank" required>
+                  <option selected value="bca">BCA</option>
                   <option value="mandiri">Mandiri</option>
                   <option value="dana">Dana</option>
                 </select>
               </div>
               <div>
               <label for="phone">Phone</label>
-              <input type="tel" min="0" class="form-control" name="phone" id="phone" placeholder="Phone Number" required autofocus>
+              <input type="number" min="0" class="form-control" name="phone" id="phone" placeholder="Phone Number" required autofocus>
             </div>
               <div>
               <label for="address">Address</label>
@@ -108,7 +105,7 @@
     }
   </script>
 
-  {{-- <script>
+  <script>
     $("#order").click(
         function () {
             $("#appear").show();
@@ -119,7 +116,7 @@
         function () {
             $("#appear").hide();
         }
-    ); --}}
+    );
 
   </script>
 

@@ -29,18 +29,14 @@ https://templatemo.com/tm-558-klassy-cafe
 
     <link rel="stylesheet" href="{{url('assets/css/lightbox.css') }}">
 
+    <link rel="stylesheet" href="/assets/css/menu2.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
 
     </head>
 
     <body>
-        @if (session()->has('success'))
-        <div class="alert alert-success col-lg-8" role="alert">
-            {{ session('success') }}
-
-          </div>
-        @endif
     <!-- ***** Preloader Start ***** -->
     <div id="preloader">
         <div class="jumper">

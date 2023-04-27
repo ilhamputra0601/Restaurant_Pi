@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Food;
 use App\Models\Chef;
 use App\Models\Order;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\Storage;
@@ -30,13 +31,15 @@ class AdminController extends Controller
     public function foodmenu()
     {
         $data=Food::all();
-        return view("admin.foodmenu",(compact("data")));
+        $categories=Category::all();
+        return view("admin.foodmenu",(compact('data','categories')));
     }
     public function upload(Request $request)
     {
         // dd($request);
         $validatedData = $request->validate([
             'title' => 'required|max:255|unique:food',
+            'category_id' => 'required',
             'price' => 'required',
             'image' => 'image|file|max:1024',
             'description' => 'required',
@@ -92,8 +95,12 @@ class AdminController extends Controller
 
     public function viewreservation()
     {
+        if(Auth::id()){
         $data=Reservation::all();
         return view("admin.reservation",(compact("data")));
+        }else{
+            return redirect('login');
+        }
     }
 
     public function reservation(Request $request)
@@ -111,7 +118,7 @@ class AdminController extends Controller
 
         ]);
         Reservation::create($validatedData);
-        return redirect()->back()->with('success','New reservation has been added!');
+        return redirect('redirects/#reservation')->with('success','New reservation has been added!');
     }
 
     public function deletereservation($id)
@@ -181,13 +188,15 @@ class AdminController extends Controller
         return redirect('/foodmenu')->with('success', 'Food has been updated!');
     }
 
+    // orders
     public function orders(){
 
-        $data = User::with('orders')
-            ->select('users.name', 'orders.user_id as user_id', \DB::raw('SUM(orders.quantity) as total_quantity'), \DB::raw('SUM(orders.quantity * orders.price) as total_amount'))
-            ->join('orders', 'users.id', '=', 'orders.user_id')
-            ->groupBy('orders.user_id', 'users.name')
-            ->get();
+        // $data = User::with('orders')
+        //     ->select('users.name', 'orders.user_id as user_id', \DB::raw('SUM(orders.quantity) as total_quantity'), \DB::raw('SUM(orders.price) as total_amount'))
+        //     ->join('orders', 'users.id', '=', 'orders.user_id')
+        //     ->groupBy('orders.user_id', 'users.name')
+        //     ->get();
+        $data = order::latest()->get();
 
         return view("admin.orders",(compact('data')));
     }
@@ -195,12 +204,19 @@ class AdminController extends Controller
     public function ordershow($user_id)
         {
             $quantity = Order::where('user_id', $user_id)->sum('quantity');
-            $total_price = Order::where('user_id', $user_id)->sum(\DB::raw('quantity * price'));
+            $total_price = Order::where('user_id', $user_id)->sum(\DB::raw(' price'));
 
             $data = Order::where('user_id', $user_id)->get();
 
             return view("admin.ordershow",(compact('data','quantity','total_price')));
 
+    }
+
+    public function deleteorder($user_id)
+    {
+        $data=Order::where('user_id', $user_id);
+        $data->delete();
+        return redirect('/orders')->with('success','order has been Deleted!');
     }
 
     public function search(Request $request){

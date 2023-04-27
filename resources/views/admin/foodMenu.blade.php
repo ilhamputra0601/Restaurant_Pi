@@ -19,6 +19,18 @@
                 @error('title')<div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
         </div>
+        <div class=" mb-3">
+            <label for="category" class="form-label ">Category</label>
+            <select class="form-select " name="category_id">
+              @foreach ($categories as $category)
+              @if (old('category_id') == $category->id)
+              <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+              @else
+              <option value="{{ $category->id }}">{{ $category->name }}</option>
+              @endif
+              @endforeach
+            </select>
+           </div>
         <div class="col">
             <div class="form-outline">
                 <input type="number" id="price" name="price" class="form-control text-dark bg-light @error('price') is-invalid @enderror" required value="{{ old('price') }}" />

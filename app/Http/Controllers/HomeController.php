@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Models\Chef;
 use App\Models\Cart;
 use App\Models\Order;
-use App\Models\Payment;
+use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 
 
@@ -17,26 +17,39 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $foods = Food::all();
-        $chefs=Chef::all();
-        return view('home',compact('foods','chefs',));
+        if(Auth::id()){
+            return redirect('redirects');
+        }else{
+        $categories = Category::all();
+        $foods = Food::latest()->filter(request(['category']))->get();
+        $chefs = Chef::all();
+        return view('home',compact('foods','chefs','categories'));
+        }
     }
 
     public function redirects()
     {
+        $categories = Category::all();
         $foods = Food::all();
         $chefs=Chef::all();
         $usertype = Auth::user()->usertype;
         if($usertype == '1') {
             $data=user::all();
-            return view('admin.users',(compact("data")));
+            if (request('category')) {
+                $category = Category::firstWhere('name',request('category'));
+            }
+
+            return view('admin.users',(compact('data','categories')));
         } else {
             $user_id=Auth::id();
+            $foods = Food::latest()->filter(request(['category']))->get();
             $count=Cart::where('user_id',$user_id)->count();
-            $count_p=payment::all()->count();
-            return view('home',compact('foods','chefs','count','count_p'));
+            $count_p = Order::where('user_id',$user_id)->count();
+            return view('home',compact('foods','chefs','count','count_p','categories'));
         }
     }
+
+
 
     public function addcart(Request $request, $id)
     {
@@ -53,7 +66,7 @@ class HomeController extends Controller
             ];
 
             Cart::create($data);
-            return redirect()->back()->with('success','New cart has been added!');
+            return redirect('redirects/#menu')->with('success','New cart has been added!');
         }else{
             return redirect('/login');
         }
@@ -61,17 +74,23 @@ class HomeController extends Controller
 
     public function showcart(Request $request, $id)
     {
+        if (Auth::id()==$id) {
+            $count_p = Order::where('user_id',$id)->count();
             $count = Cart::where('user_id',$id)->count();
-            $data = Cart::where('user_id',$id)->join('food', 'carts.food_id', '=' ,'food.id')->get();
             $data2 = Cart::select('*')->where('user_id','=', $id)->get();
+            $data = cart::where('user_id',$id)->get();
 
             $totalPrice = DB::table('carts')
               ->join('food', 'carts.food_id', '=', 'food.id')
               ->where('user_id', $id)
               ->sum(DB::raw('price * quantity'));
 
+            return view('showcart',compact('count','count_p','data','data2','totalPrice'));
+        } else {
+            return redirect()->back();
+        }
 
-            return view('showcart',compact('count','data','data2','totalPrice'));
+
     }
 
     public function deletecart($id)
@@ -102,7 +121,7 @@ class HomeController extends Controller
         }
         // dd($data);
         Order::create($data);
-        return redirect('/showpay/{id}')->with('success','Cart has been Added!');
+        return redirect()->back()->with('success','Cart has been Added!');
     }
 
     return redirect()->back()->with('success','New order has been added!');
@@ -110,31 +129,23 @@ class HomeController extends Controller
 
     public function showpay(Request $request, $id)
     {
+    if (Auth::id()==$id) {
         $user_id = Auth::id();
         $count = Cart::where('user_id',$user_id)->count();
-        $count_p=payment::all()->count();
-        $data = payment::all();
+        $count_p = Order::where('user_id',$user_id)->count();
+        $data = Order::where('user_id', $user_id)->get();
         return view('showpay',compact('count','count_p','data'));
+    } else {
+        return redirect()->back();
     }
 
-    public function payment(Request $request)
+    }
+
+    public function deletepay($id)
     {
-        // dd($request);
-        $user_id=Auth::id();
-
-            $data = [
-            'price'=> $request->price,
-            'quantity'=> $request->quantity,
-            'name' => $request->name,
-            'bank' => $request->bank,
-            'phone' => $request->phone,
-            'address' => $request->address,
-            ];
-
-        // dd($data);
-        payment::create($data);
-        return redirect('/showpay/{id}')->with('success','Cart has been Added!');
+        $data=Order::find($id);
+        $data->delete();
+        return redirect()->back()->with('success','Cart has been Deleted!');
     }
-
 
 }

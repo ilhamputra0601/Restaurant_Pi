@@ -19,6 +19,7 @@ class FoodFactory extends Factory
     {
         return [
             'title' => $this->faker->unique()->sentence(mt_rand(1,2)),
+            'category_id' =>mt_rand(1,3),
             'price' =>mt_rand(10,30),
             'image'=> $this->faker->imageUrl(640, 480, 'animals', true),
             'description' => $this->faker->words(2,3, true),

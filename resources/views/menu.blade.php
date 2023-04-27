@@ -1,6 +1,12 @@
  <!-- ***** Menu Area Starts ***** -->
  <section class="section" id="menu">
     <div class="container">
+        @if (session()->has('success'))
+        <div class="alert alert-success col-lg-8" role="alert">
+            {{ session('success') }}
+
+          </div>
+        @endif
         <div class="row">
             <div class="col-lg-4">
                 <div class="section-heading">
