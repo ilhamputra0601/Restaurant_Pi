@@ -58,36 +58,37 @@
     <button type="submit" class="btn btn-primary btn-block mb-4">Save</button>
 </form>
 
-  <table class="table table-success table-striped">
+<table class="table table-success table-striped" style="max-width: 600px;">
     <thead>
         <tr>
-          <th scope="col">No</th>
-          <th scope="col">Food Menu</th>
-          <th scope="col">Price</th>
-          <th scope="col">Description</th>
-          <th scope="col">Image</th>
-          <th scope="col">Update</th>
-          <th scope="col">Delete</th>
+            <th scope="col">No</th>
+            <th scope="col">Food Menu</th>
+            <th scope="col">Price</th>
+            <th scope="col">Description</th>
+            <th scope="col">Image</th>
+            <th scope="col">Update</th>
+            <th scope="col">Delete</th>
         </tr>
-      </thead>
-      <tbody>
-          @foreach ($data as $data)
-          <tr>
-              <th scope="row">{{ $loop->iteration }}</th>
-              <td>{{ $data->title }}</td>
-              <td>{{ $data->price }}</td>
-              <td>{{ $data->description }}</td>
-              <td><img src="{{ asset('storage/'. $data->image)  }}" alt="{{ $data->title }}"></td>
-              <td>
-                  <button onclick="location.href='{{ url('/viewmenu',$data->id) }}'" type="button" class="btn btn-primary"><strong>⨇</strong></button>
-              </td>
-              <td>
-                <button onclick="confirmDelete('{{ url('/deletemenu', $data->id) }}')" type="button" class="btn btn-danger"><strong>X</strong></button>
-              </td>
-          </tr>
-          @endforeach
-      </tbody>
-  </table>
+    </thead>
+    <tbody>
+        @foreach ($data as $menu)
+        <tr>
+            <th scope="row">{{ $loop->iteration }}</th>
+            <td>{{ $menu->title }}</td>
+            <td>{{ $menu->price }}</td>
+            <td>{{ $menu->description }}</td>
+            <td><img src="{{ asset('storage/'. $menu->image) }}" alt="{{ $menu->title }}"></td>
+            <td>
+                <button onclick="location.href='{{ url('/viewmenu',$menu->id) }}'" type="button" class="btn btn-primary"><strong>⨇</strong></button>
+            </td>
+            <td>
+                <button onclick="confirmDelete('{{ url('/deletemenu', $menu->id) }}')" type="button" class="btn btn-danger"><strong>X</strong></button>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+
 
   <script>
     //  img preview

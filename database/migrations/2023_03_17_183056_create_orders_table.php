@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignid('user_id')->nullable();
             $table->string('name')->nullable();
-            $table->string('bank')->nullable();
+            $table->foreignid('bank_id')->nullable();
             $table->string('foodname')->nullable();
             $table->string('price')->nullable();
             $table->string('quantity')->nullable();

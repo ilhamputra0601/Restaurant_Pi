@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
@@ -17,6 +17,10 @@ class Order extends Model
     public function food()
     {
         return $this->belongsTo(Food::class);
+    }
+    public function bank()
+    {
+        return $this->belongsTo(Bank::class);
     }
 
 }

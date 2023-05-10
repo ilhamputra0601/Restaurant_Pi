@@ -3,8 +3,8 @@
         <div class="row">
             <div class="col-lg-4 offset-lg-4 text-center">
                 <div class="section-heading">
-                    <h6>Klassy Week</h6>
-                    <h2>This Week’s Special Meal Offers</h2>
+                    <h6>My Menu</h6>
+                    <h2>Tersedia Menu dengan berbagai kategori</h2>
                 </div>
             </div>
         </div>
@@ -29,9 +29,11 @@
                                     <div class="row justify-content-md-center">
                                         @foreach ( $foods as $food )
                                         <div class=" mb-3 col col-lg-2 m-2">
+                                            <form action="{{ url('/addcart', $food->id) }}" method="post">
+                                                @csrf
                                             <div class="card-sl">
                                             <div class="card-image">
-                                                <img src="{{ $food->image }}" />
+                                                <img src="/storage/{{ $food->image }}" />
                                             </div>
                                             @auth
                                             <a class="card-action" href="/redirects?category={{ $category->name }}"><img src="{{ $food->category->image }}"></a>
@@ -47,8 +49,11 @@
                                             <div class="card-text">
                                                 Rp {{ $food->price }}.000
                                             </div>
-                                            <a href="#" class="card-button"> Purchase</a>
+                                            <input  style="width: 75px;" type="number" min="1" value="1" id="quantity" name="quantity" class="form-control border border-primary rounded mr-1 ml-5"  placeholder="Quantity" aria-label="Recipient's username" aria-describedby="button-addon2" required>
+                                            <button type="submit" class="btn btn-primary bg-primary text-light card-button">add cart</button>
+                                            {{-- <a href="#" class="card-button"> Purchase</a> --}}
                                         </div>
+                                    </form>
                                     </div>
                                         @endforeach
                                     </div>

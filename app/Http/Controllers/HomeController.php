@@ -8,6 +8,7 @@ use App\Models\Food;
 use App\Models\User;
 use App\Models\Chef;
 use App\Models\Cart;
+use App\Models\Bank;
 use App\Models\Order;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
@@ -114,7 +115,7 @@ class HomeController extends Controller
             'quantity'=> $request->quantity[$key],
             'user_id' => $user_id,
             'name' => $request->name,
-            'bank' => $request->bank,
+            'bank_id' => $request->bank_id,
             'phone' => $request->phone,
             'address' => $request->address,
             ];
@@ -130,6 +131,7 @@ class HomeController extends Controller
     public function showpay(Request $request, $id)
     {
     if (Auth::id()==$id) {
+        $car = Order::get();
         $user_id = Auth::id();
         $count = Cart::where('user_id',$user_id)->count();
         $count_p = Order::where('user_id',$user_id)->count();

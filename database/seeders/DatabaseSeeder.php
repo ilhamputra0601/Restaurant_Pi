@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Bank;
 use App\Models\Food;
 use App\Models\User;
 use App\Models\Category;
@@ -30,21 +31,10 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('ilhamputra1234')
         ]);
 
-        User::factory()->create([
-            'name' => 'jokowi',
-            'email' => 'joko@gmail.com',
-            'password' => bcrypt('password')
-        ]);
 
-        User::factory()->create([
-            'name' => 'naufal',
-            'email' => 'nopal@gmail.com',
-            'password' => bcrypt('password')
-        ]);
+        // User::factory(50)->create();
 
-        User::factory(50)->create();
-
-        Food::factory(20)->create();
+        // Food::factory(20)->create();
 
         Reservation::factory()->create([
             'name' => 'Ilham ramadhan',
@@ -70,5 +60,20 @@ class DatabaseSeeder extends Seeder
             'name' => 'Burned',
             'image'=> 'assets/images/tab-icon-03.png'
          ]);
-    }
+
+         //Bank
+         Bank::create([
+             'name' => 'Bca',
+             'number'=> '8692176030',
+          ]);
+         Bank::create([
+             'name' => 'Mandiri',
+             'number'=> '8692176030',
+          ]);
+         Bank::create([
+             'name' => 'Dana',
+             'number'=> '089658501537',
+          ]);
+     }
+
 }

@@ -60,23 +60,21 @@ https://templatemo.com/tm-558-klassy-cafe
                 <div class="col-lg-4 col-xs-12">
                     <div class="right-text-content">
                             <ul class="social-icons">
-                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                                <li><a href="https://api.whatsapp.com/message/A2FUYFNJZFKGL1?autoload=1&app_absent=0"><i class="fa fa-phone"></i></a></li>
+                                <li><a href="https://www.instagram.com/restokampungbunga.official/"><i class="fa fa-instagram"></i></a></li>
                             </ul>
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <div class="logo">
-                        <a href="index.html"><img src="{{url('assets/images/white-logo.png') }}" alt=""></a>
+                    <div class="logo" style="width: 100px;">
+                        <a href="/" class="d-flex"><img src="{{url('assets/images/white-logo.png') }}" width="100"></a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs-12">
                     <div class="left-text-content">
-                        <p>© Copyright Klassy Cafe Co.
+                        <p>© Copyright Resto Kampung bunga.
 
-                        <br>Design: TemplateMo</p>
+                        <br>By : ilham Ramadhan</p>
                     </div>
                 </div>
             </div>

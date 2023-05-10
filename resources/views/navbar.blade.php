@@ -4,8 +4,8 @@
             <div class="col-12">
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
-                    <a href="#" class="logo">
-                        <img src="{{url('assets/images/klassy-logo.png') }}" align="klassy cafe html template">
+                    <a href="#" class="logo" style="max-width: 75px; margin-top: 10px;">
+                        <img src="{{url('assets/images/klassy-logo.png') }}" width="75">
                     </a>
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->

@@ -71,10 +71,10 @@
               <!-- Example single danger button -->
               <div class="mb-3 mt-1">
                 <label for="category" class="form-label ">select payment</label>
-                <select class="form-select" name="bank" required>
-                  <option selected value="bca">BCA</option>
-                  <option value="mandiri">Mandiri</option>
-                  <option value="dana">Dana</option>
+                <select class="form-select" name="bank_id" required>
+                  <option selected value="1">BCA</option>
+                  <option value="2">Mandiri</option>
+                  <option value="3">Dana</option>
                 </select>
               </div>
               <div>

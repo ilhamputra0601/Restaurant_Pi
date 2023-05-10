@@ -11,7 +11,7 @@
             <div class="col-lg-4">
                 <div class="section-heading">
                     <h6>Our Menu</h6>
-                    <h2>Our selection of cakes with quality taste</h2>
+                    <h2>Pilihan Menu kami dengan rasa berkualitas</h2>
                 </div>
             </div>
         </div>
@@ -23,8 +23,8 @@
                 <form action="{{ url('/addcart', $food->id) }}" method="post">
                     @csrf
                 <div class="item">
-                    {{-- <div style="background-image: url('/storage/{{ $food->image }}');" class='card card1'> --}}
-                    <div style="background-image: url('{{ $food->image }}');" class="card card{{ $loop->iteration }}">
+                    <div style="background-image: url('/storage/{{ $food->image }}');" class='card card1'>
+                    {{-- <div style="background-image: url('{{ $food->image }}');" class="card card{{ $loop->iteration }}"> --}}
                         <div class="price"><h6>{{ $food->price }} K</h6></div>
                         <div class='info'>
                             <h1 class='title'>{{ $food->title }}</h1>

@@ -191,11 +191,6 @@ class AdminController extends Controller
     // orders
     public function orders(){
 
-        // $data = User::with('orders')
-        //     ->select('users.name', 'orders.user_id as user_id', \DB::raw('SUM(orders.quantity) as total_quantity'), \DB::raw('SUM(orders.price) as total_amount'))
-        //     ->join('orders', 'users.id', '=', 'orders.user_id')
-        //     ->groupBy('orders.user_id', 'users.name')
-        //     ->get();
         $data = order::latest()->get();
 
         return view("admin.orders",(compact('data')));
