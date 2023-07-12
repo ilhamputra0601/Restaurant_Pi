@@ -17,6 +17,7 @@
           <th scope="col">Name</th>
           <th scope="col">Phone</th>
           <th scope="col">Address</th>
+          <th scope="col">Paid</th>
         </tr>
       </thead>
       <tbody>
@@ -29,6 +30,20 @@
               <td>{{ $data->name }}</td>
               <td>{{ $data->phone }}</td>
               <td>{{ $data->address }}</td>
+              <td>
+                <form action="{{ url('/updatepay', $data->id) }}" method="POST">
+                    @csrf
+
+                    <label for="category" class="form-label">Select payment</label>
+                    <select class="form-select" name="paid" required onchange="this.form.submit()">
+                        <option style="display: none" value="{{ $data->paid }}" {{ $data->paid ? 'selected' : '' }}>
+                            {{ $data->paid ? 'Paid' : 'Not Paid' }}
+                        </option>
+                        <option value="1">Paid</option>
+                        <option value="0">Not Paid</option>
+                    </select>
+                </form>
+              </td>
           </tr>
           @endforeach
       </tbody>

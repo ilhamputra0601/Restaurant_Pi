@@ -15,11 +15,12 @@ use App\Http\Controllers\AdminController;
 |
 */
 // home
-Route::get('/', [HomeController::class,"index"]);
+Route::get('/', [HomeController::class,"index"])->name('home');
 Route::get('/redirects', [HomeController::class,"redirects"]);
 
 // payment
 Route::get('/showpay/{id}', [HomeController::class,"showpay"]);
+Route::post('/updatepay/{id}', [AdminController::class,"updatepay"]);
 
 // AddCart
 Route::post('/addcart/{id}', [HomeController::class,"addcart"]);

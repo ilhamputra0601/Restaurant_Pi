@@ -15,12 +15,13 @@ return new class extends Migration
             $table->id();
             $table->foreignid('user_id')->nullable();
             $table->string('name')->nullable();
-            $table->foreignid('bank_id')->nullable();
             $table->string('foodname')->nullable();
             $table->string('price')->nullable();
             $table->string('quantity')->nullable();
             $table->string('phone')->nullable();
+            $table->string('snapToken')->nullable();
             $table->string('address')->nullable();
+            $table->boolean('paid')->default(false);
             $table->timestamps();
         });
     }

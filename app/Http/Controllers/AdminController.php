@@ -191,19 +191,37 @@ class AdminController extends Controller
     // orders
     public function orders(){
 
-        $data = order::latest()->get();
+        $data = Order::select('user_id')
+        ->distinct()
+        ->get();
+
 
         return view("admin.orders",(compact('data')));
     }
 
     public function ordershow($user_id)
         {
+
             $quantity = Order::where('user_id', $user_id)->sum('quantity');
             $total_price = Order::where('user_id', $user_id)->sum(\DB::raw(' price'));
 
             $data = Order::where('user_id', $user_id)->get();
 
             return view("admin.ordershow",(compact('data','quantity','total_price')));
+
+    }
+
+    public function updatepay(Request $request, $id)
+        {
+
+            $data = Order::find($id);
+            $rules = [
+                'paid' => 'required'
+            ];
+            $validatedData = $request->validate($rules);
+            $data->update($validatedData);
+
+            return redirect()->back()->with('success','order paid successfully!');
 
     }
 

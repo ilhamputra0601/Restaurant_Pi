@@ -35,7 +35,8 @@
             </td>
 
             <td>
-                <input style=" width:60px;" type="number" min="0" name="quantity[]" value="{{ $cart->quantity }}">
+                <input style=" width:60px;" type="number" min="0" name="quantity[]" value="{{ $cart->quantity }}" hidden>
+                {{ $cart->quantity }}
 
             </td>
               @endforeach
@@ -68,15 +69,7 @@
               <label for="name">Total Price</label>
               <input type="text" class="form-control" name="totalprice" placeholder="name@example.com" value="Rp {{ $totalPrice }}.000" disabled required>
             </div>
-              <!-- Example single danger button -->
-              <div class="mb-3 mt-1">
-                <label for="category" class="form-label ">select payment</label>
-                <select class="form-select" name="bank_id" required>
-                  <option selected value="1">BCA</option>
-                  <option value="2">Mandiri</option>
-                  <option value="3">Dana</option>
-                </select>
-              </div>
+
               <div>
               <label for="phone">Phone</label>
               <input type="number" min="0" class="form-control" name="phone" id="phone" placeholder="Phone Number" required autofocus>

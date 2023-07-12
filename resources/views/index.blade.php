@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <title>Klassy Cafe - Restaurant HTML Template</title>
+    <title>Restaurant Kampung Bunga</title>
 <!--
 
 TemplateMo 558 Klassy Cafe
@@ -32,6 +32,7 @@ https://templatemo.com/tm-558-klassy-cafe
     <link rel="stylesheet" href="/assets/css/menu2.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"data-client-key="{{ config('app.client_key') }}"></script>
 
 
     </head>

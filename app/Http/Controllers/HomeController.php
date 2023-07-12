@@ -12,6 +12,8 @@ use App\Models\Bank;
 use App\Models\Order;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
+use Midtrans\Config;
+
 
 
 class HomeController extends Controller
@@ -115,13 +117,40 @@ class HomeController extends Controller
             'quantity'=> $request->quantity[$key],
             'user_id' => $user_id,
             'name' => $request->name,
-            'bank_id' => $request->bank_id,
             'phone' => $request->phone,
             'address' => $request->address,
             ];
         }
         // dd($data);
-        Order::create($data);
+        $order = Order::create($data);
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = config('app.server_key');
+        // Set to Development/Sandbox Environment (default). Set tois_ true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = config('app.is_production');
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
+
+
+        $params = array(
+            'transaction_details' => array(
+                'order_id' => $order->id,
+                'gross_amount' => $order->price,
+            ),
+            'customer_details' => array(
+                'first_name' => $request->name,
+                'last_name' => '',
+                'phone' => $request->phone,
+            ),
+        );
+
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+            // Update the order with snapToken
+            // dd($snapToken);
+            $order->snapToken = $snapToken;
+            $order->save();
+
         return redirect()->back()->with('success','Cart has been Added!');
     }
 
@@ -131,7 +160,7 @@ class HomeController extends Controller
     public function showpay(Request $request, $id)
     {
     if (Auth::id()==$id) {
-        $car = Order::get();
+
         $user_id = Auth::id();
         $count = Cart::where('user_id',$user_id)->count();
         $count_p = Order::where('user_id',$user_id)->count();
@@ -148,6 +177,23 @@ class HomeController extends Controller
         $data=Order::find($id);
         $data->delete();
         return redirect()->back()->with('success','Cart has been Deleted!');
+    }
+
+    public function callback(Request $request)
+    {
+        $serverKey = config('app.server_key');
+        $hashed = hash("sha512", $request->order_id . $request->status_code . $request->gross_amount . $serverKey);
+        if ($hashed == $request->signature_key) {
+        if ($request->transaction_status == 'capture' || $request->transaction_status == 'settlement') {
+        $order = Order::find($request->order_id);
+
+        if ($order) {
+            $order->paid = true;
+            $order->save();
+        }
+
+    }
+        }
     }
 
 }
