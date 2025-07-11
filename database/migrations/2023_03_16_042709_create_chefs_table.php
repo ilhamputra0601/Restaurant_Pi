@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('chefs', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->string('speciality')->nullable();
+            $table->foreignid('category_id')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();
         });

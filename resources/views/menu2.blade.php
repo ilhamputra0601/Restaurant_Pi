@@ -40,14 +40,16 @@
                                             @else
                                             <a class="card-action" href="/?category={{ $category->name }}"><img src="{{ $food->category->image }}"></a>
                                             @endauth
-                                            <div class="card-heading">
+                                            <div class="card-heading text-truncate">
                                                 {{ $food->title }}
                                             </div>
                                             <div class="card-text">
-                                                {{ $food->description }}
+                                                <div class="text-truncate">
+                                                    {{ $food->description }}
+                                                </div>
                                             </div>
                                             <div class="card-text">
-                                                Rp {{ $food->price }}.000
+                                                Rp {{ $food->price }}
                                             </div>
                                             <input  style="width: 75px;" type="number" min="1" value="1" id="quantity" name="quantity" class="form-control border border-primary rounded mr-1 ml-5"  placeholder="Quantity" aria-label="Recipient's username" aria-describedby="button-addon2" required>
                                             <button type="submit" class="btn btn-primary bg-primary text-light card-button">add cart</button>

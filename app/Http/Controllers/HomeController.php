@@ -8,7 +8,6 @@ use App\Models\Food;
 use App\Models\User;
 use App\Models\Chef;
 use App\Models\Cart;
-use App\Models\Bank;
 use App\Models\Order;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
@@ -38,11 +37,13 @@ class HomeController extends Controller
         $usertype = Auth::user()->usertype;
         if($usertype == '1') {
             $data=user::all();
+            $total_balance = Order::where('paid', true)->sum('price');
+            $menu_count = Food::count();
             if (request('category')) {
                 $category = Category::firstWhere('name',request('category'));
             }
 
-            return view('admin.users',(compact('data','categories')));
+            return view('admin.dashboard.index',(compact('data','categories','total_balance','menu_count')));
         } else {
             $user_id=Auth::id();
             $foods = Food::latest()->filter(request(['category']))->get();

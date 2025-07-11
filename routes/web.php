@@ -67,3 +67,16 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+// Route::middleware(['auth', 'verified'])->group(function () {
+//     Route::get('/redirects'', function () {
+//         return view('admin.dashboard.index');
+//     });
+//     Route::resource('transaksi', TransaksiController::class);
+//     Route::resource('detail_transaksi', DetailTransaksiController::class);
+//     Route::resource('user', UserController::class);
+
+//     Route::resource('/penjual', PenjualController::class,);
+//     Route::get('/product', [ProductController::class, 'index']);
+//     Route::get('/product_galleries', [Product_GalleriesController::class, 'index']);
+// });

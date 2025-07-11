@@ -3,12 +3,24 @@
 <div class="alert alert-success col-lg-8" role="alert">
     {{ session('success') }}
 
-</div>
+  </div>
 @endif
-<h1 class="fs-2 text-uppercase mb-5">Halaman Reservation</h1>
+<h1 class="fs-2 text-uppercase mb-5">Halaman Order</h1>
+<form action="{{ url('/search') }}" method="get">
+    @csrf
+<div class="input-group mb-5">
+    <div class="form-outline">
+      <input type="text" name="search" id="form1" class="form-control bg-light" placeholder="search" />
+    </div>
+    <button type="submit" class="btn btn-primary bg-primary">
+      Search
+    </button>
+  </div>
+</form>
 
 
-<div class="w-full overflow-hidden rounded-lg shadow-xs">
+
+  <div class="w-full overflow-hidden rounded-lg shadow-xs">
     <div class="w-full overflow-x-auto">
         <div class="mx-5">
 
@@ -29,19 +41,22 @@
 
     </div>
 
-            <x-Table.Table :headers="['No','Name','Email','Phone','Date','Time','Message','Action']">
-                @foreach($data as $res)
-                <tr class="text-gray-700 dark:text-gray-400">
+            <x-Table.Table :headers="['No','Name','Order Totals','Total Price','Action']">
+                @foreach($data as $order)
+                <tr class=" text-gray-700 dark:text-gray-400">
                     <x-table.td>{{ $loop->iteration }}</x-table.td>
-                    <x-table.td>{{ $res->name }}</x-table.td>
-                    <x-table.td>{{ $res->email }}</x-table.td>
-                    <x-table.td>{{ $res->phone }}</x-table.td>
-                    <x-table.td>{{ $res->date }}</x-table.td>
-                    <x-table.td>{{ $res->time }}</x-table.td>
-                    <x-table.td>{{ $res->message }}</x-table.td>
+                    <x-table.td> <p class="font-semibold">{{ $order->user->name }}</p>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">
+                          {{ $order->user->created_at->diffForHumans() }}</x-table.td>
+                    <x-table.td>{{ $order->total_quantity }}</x-table.td>
+                    <x-table.td>{{ $order->total_price }}</x-table.td>
                     <x-table.td td="action">
+                        <button type="button" onclick="location.href='{{ url('/ordershow', $order->user_id) }}'"
+                            class="text-gray-400 hover:text-gray-100 mx-2">
+                            <i class="material-icons-outlined text-base">edit</i>
+                        </button>
                         <button class="text-gray-400 hover:text-gray-100 ml-2"
-                        onclick="confirmDelete('{{ url('/deletereservation',$res->id) }}')" type="button">
+                            onclick="confirmDelete('{{ url('/deleteorder',$order->user_id) }}')" type="button">
                             <i class="material-icons-round text-base">delete_outline</i>
                         </button>
 
@@ -148,11 +163,15 @@
 
 
   </div>
+
 </x-Admin-Layout>
-  <script>
+
+<script>
     function confirmDelete(url) {
-      if (confirm("Apakah Anda yakin ingin menghapus user ini?")) {
+      if (confirm("Apakah Anda yakin ingin menghapus pesanan ini?")) {
         window.location.href = url;
       }
     }
   </script>
+
+

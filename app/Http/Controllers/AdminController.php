@@ -18,7 +18,7 @@ class AdminController extends Controller
     public function user()
     {
         $data=user::all();
-        return view("admin.users",(compact("data")));
+        return view("admin.dashboard.index",(compact('data')));
     }
     public function deleteuser($id)
     {
@@ -32,7 +32,7 @@ class AdminController extends Controller
     {
         $data=Food::all();
         $categories=Category::all();
-        return view("admin.foodmenu",(compact('data','categories')));
+        return view("admin.menu.foodmenu",(compact('data','categories')));
     }
     public function upload(Request $request)
     {
@@ -55,7 +55,8 @@ class AdminController extends Controller
     public function viewfood($id)
     {
         $data=Food::find($id);
-        return view('admin.updatefood',compact("data"));
+        $categories=Category::all();
+        return view('admin.menu.updatefood',compact("data","categories"));
     }
 
     public function update(Request $request, $id)
@@ -63,6 +64,7 @@ class AdminController extends Controller
         $data = Food::find($id);
         $rules = [
             'title' => 'required|max:255',
+            'category_id' => 'required',
             'price' => 'required',
             'image' => 'image|file|max:1024',
             'description' => 'required',
@@ -132,7 +134,8 @@ class AdminController extends Controller
     public function viewchef()
     {
         $data=Chef::all();
-        return view("admin.adminchef",(compact("data")));
+        $categories=Category::all();
+        return view("admin.adminchef",(compact('data','categories')));
     }
 
     public function createchef(Request $request)
@@ -140,7 +143,7 @@ class AdminController extends Controller
         // dd($request);
         $validatedData = $request->validate([
             'name' => 'required|max:255',
-            'speciality' => 'required',
+            'category_id' => 'required',
             'image' => 'image|file|max:1024',
 
         ]);
@@ -164,14 +167,15 @@ class AdminController extends Controller
     public function showchef($id)
     {
         $data=Chef::find($id);
-        return view('admin.updatechef',compact("data"));
+        $categories=category::all();
+        return view('admin.updatechef',compact('data', 'categories'));
     }
     public function updatechef(Request $request, $id)
     {
         $data = Chef::find($id);
         $rules = [
             'name' => 'required|max:255',
-            'speciality' => 'required',
+            'category_id' => 'required',
             'image' => 'image|file|max:1024',
         ];
         $validatedData = $request->validate($rules);
@@ -180,23 +184,28 @@ class AdminController extends Controller
             if ($data->image) {
                 Storage::delete($data->image);
             }
-            $validatedData['image'] = $request->file('image')->store('food-images');
+            $validatedData['image'] = $request->file('image')->store('chef-images');
         }
 
         $data->update($validatedData);
 
-        return redirect('/foodmenu')->with('success', 'Food has been updated!');
+        return redirect()->back()->with('success', 'Chef has been updated!');
     }
 
     // orders
     public function orders(){
 
+        // $data = Order::select('user_id')
+        // ->distinct()
+        // ->get();
+
         $data = Order::select('user_id')
-        ->distinct()
-        ->get();
+    ->selectRaw('SUM(quantity) as total_quantity, SUM(price) as total_price')
+    ->groupBy('user_id')
+    ->get();
 
 
-        return view("admin.orders",(compact('data')));
+        return view("admin.order.orders",(compact('data')));
     }
 
     public function ordershow($user_id)
@@ -207,7 +216,7 @@ class AdminController extends Controller
 
             $data = Order::where('user_id', $user_id)->get();
 
-            return view("admin.ordershow",(compact('data','quantity','total_price')));
+            return view("admin.order.ordershow",(compact('data','quantity','total_price')));
 
     }
 

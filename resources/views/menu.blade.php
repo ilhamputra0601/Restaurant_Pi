@@ -25,7 +25,7 @@
                 <div class="item">
                     <div style="background-image: url('/storage/{{ $food->image }}');" class='card card1'>
                     {{-- <div style="background-image: url('{{ $food->image }}');" class="card card{{ $loop->iteration }}"> --}}
-                        <div class="price"><h6>{{ $food->price }} K</h6></div>
+                        <div class="price"><h6>{{ $food->price }} </h6></div>
                         <div class='info'>
                             <h1 class='title'>{{ $food->title }}</h1>
                             <p class='description'>{{ $food->description }}</p>

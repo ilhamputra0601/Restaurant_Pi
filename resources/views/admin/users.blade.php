@@ -1,5 +1,5 @@
-@extends('admin.adminhome')
-@section('container')
+<x-Admin-Layout>
+    <x-slot name="top">
 @if (session()->has('success'))
 <div class="alert alert-success col-lg-8" role="alert">
     {{ session('success') }}
@@ -32,7 +32,7 @@
         @endforeach
     </tbody>
   </table>
-
+</x-Admin-Layout>
   <script>
     function confirmDelete(url) {
       if (confirm("Apakah Anda yakin ingin menghapus user ini?")) {
@@ -40,4 +40,4 @@
       }
     }
   </script>
-@endsection
+

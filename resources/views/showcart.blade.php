@@ -1,5 +1,7 @@
-@extends('index')
-@section('container')
+<x-App-Layout>
+    <!-- ***** Header Area Start ***** -->
+         @include('layouts.navbar')
+    <!-- ***** Header Area End ***** -->
 <div style="margin-top: 150px;"></div>
 @if (session()->has('success'))
 <div class="alert alert-success col-lg-8" role="alert">
@@ -31,7 +33,7 @@
             </td>
               <td>
                 <input type="number" name="price[]" value="{{ $totalPrice}}" hidden>
-                {{ $cart->food->price}} K
+                {{ $cart->food->price}}
             </td>
 
             <td>
@@ -67,7 +69,7 @@
             </div>
               <div>
               <label for="name">Total Price</label>
-              <input type="text" class="form-control" name="totalprice" placeholder="name@example.com" value="Rp {{ $totalPrice }}.000" disabled required>
+              <input type="text" class="form-control" name="totalprice" placeholder="name@example.com" value="Rp {{ $totalPrice }}" disabled required>
             </div>
 
               <div>
@@ -113,4 +115,4 @@
 
   </script>
 
-@endsection
+</x-App-Layout>

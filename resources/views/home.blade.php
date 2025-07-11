@@ -1,5 +1,9 @@
-@extends('index')
-@section('container')
+
+<x-App-Layout>
+         <!-- ***** Header Area Start ***** -->
+         @include('layouts.navbar')
+         <!-- ***** Header Area End ***** -->
+
     <!-- ***** Main Banner Area Start ***** -->
     <div id="top">
         <div class="container-fluid">
@@ -133,6 +137,4 @@
     @include('menu2')
   <!-- ***** Menu Area Ends ***** -->
 
-
-
-    @endsection
+</x-App-Layout>

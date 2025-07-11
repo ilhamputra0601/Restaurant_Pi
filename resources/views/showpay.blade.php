@@ -1,5 +1,7 @@
-@extends('index')
-@section('container')
+<x-App-Layout>
+     <!-- ***** Header Area Start ***** -->
+         @include('layouts.navbar')
+    <!-- ***** Header Area End ***** -->
 <div style="margin-top: 150px;"></div>
 @if (session()->has('success'))
 <div class="alert alert-success col-lg-8" role="alert">
@@ -74,7 +76,7 @@
 </div>
 
 
-@endsection
+</x-App-Layout>
 
 <script>
     function confirmDeletePay(url) {

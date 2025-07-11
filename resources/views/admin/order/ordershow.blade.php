@@ -3,48 +3,51 @@
 <div class="alert alert-success col-lg-8" role="alert">
     {{ session('success') }}
 
-</div>
+  </div>
 @endif
-<h1 class="fs-2 text-uppercase mb-5">Halaman Reservation</h1>
 
-
-<div class="w-full overflow-hidden rounded-lg shadow-xs">
+<div class="w-full overflow-hidden rounded-lg shadow-xs mt-5">
     <div class="w-full overflow-x-auto">
-        <div class="mx-5">
-
+<div class="mx-5">
 
     <div
-    class="flex items-center justify-between p-4 mb-8 text-sm font-semibold text-purple-100 bg-purple-600 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple">
-    <div class="flex items-center">
-        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path
-                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
-            </path>
-        </svg>
-        <span>
-            <a href="">Order</a>
-        </span>
-    </div>
-    <button onclick="location.href='/redirects'" type="button"class=" rounded-full text-white hover:text-blue-300 "><span> &leftarrow; Dashboard</span></button>
+class="flex items-center justify-between p-4 mb-8 text-sm font-semibold text-purple-100 bg-purple-600 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple">
+<div class="flex items-center">
+    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+        <path
+            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+        </path>
+    </svg>
+    <span>
+        <a href="">Order show </a>
+    </span>
+</div>
+<button onclick="location.href='/orders'" type="button"class=" rounded-full text-white hover:text-blue-300 "><span> &leftarrow; Back</span></button>
 
-    </div>
+</div>
 
-            <x-Table.Table :headers="['No','Name','Email','Phone','Date','Time','Message','Action']">
-                @foreach($data as $res)
+            <x-Table.Table :headers="['No','Food Name','Price','Quantity','Phone','Address','Paid']">
+                @foreach($data as $order)
                 <tr class="text-gray-700 dark:text-gray-400">
                     <x-table.td>{{ $loop->iteration }}</x-table.td>
-                    <x-table.td>{{ $res->name }}</x-table.td>
-                    <x-table.td>{{ $res->email }}</x-table.td>
-                    <x-table.td>{{ $res->phone }}</x-table.td>
-                    <x-table.td>{{ $res->date }}</x-table.td>
-                    <x-table.td>{{ $res->time }}</x-table.td>
-                    <x-table.td>{{ $res->message }}</x-table.td>
-                    <x-table.td td="action">
-                        <button class="text-gray-400 hover:text-gray-100 ml-2"
-                        onclick="confirmDelete('{{ url('/deletereservation',$res->id) }}')" type="button">
-                            <i class="material-icons-round text-base">delete_outline</i>
-                        </button>
+                    <x-table.td>{{ $order->foodname }}</x-table.td>
+                    <x-table.td>Rp {{ $order->price }}.000</x-table.td>
+                    <x-table.td>{{ $order->quantity }}</x-table.td>
+                    <x-table.td>{{ $order->phone }}</x-table.td>
+                    <x-table.td>{{ $order->address }}</x-table.td>
+                    <x-table.td >
+                        <form action="{{ url('/updatepay', $order->id) }}" method="POST">
+                            @csrf
 
+                            <label for="category" class="form-label">Select payment</label>
+                            <select class="form-select" name="paid" required onchange="this.form.submit()">
+                                <option style="display: none" value="{{ $order->paid }}" {{ $order->paid ? 'selected' : '' }}>
+                                    {{ $order->paid ? 'Paid' : 'Not Paid' }}
+                                </option>
+                                <option value="1">Paid</option>
+                                <option value="0">Not Paid</option>
+                            </select>
+                        </form>
                     </x-table.td>
                 </tr>
                 @endforeach
@@ -52,6 +55,9 @@
             <div class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
               <span class="flex items-center col-span-3">
                 Showing 21-30 of 100
+              </span>
+              <span class="flex">
+                <strong>Total Price:</strong> Rp {{ $total_price }}.000
               </span>
               <span class="col-span-2"></span>
               <!-- Pagination -->
@@ -146,13 +152,4 @@
         </div>
         </div>
 
-
-  </div>
 </x-Admin-Layout>
-  <script>
-    function confirmDelete(url) {
-      if (confirm("Apakah Anda yakin ingin menghapus user ini?")) {
-        window.location.href = url;
-      }
-    }
-  </script>
